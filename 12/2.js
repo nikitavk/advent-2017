@@ -1999,28 +1999,36 @@ const input = `0 <-> 795
 1998 <-> 1191
 1999 <-> 807, 1190`;
 
-let rules = input
-  .split('\n')
-  .map(e => e.split('<->'))
-  .map(e => ({
-    name: e[0].trim(),
-    friends: e[1].split(',').map(e => e.trim()),
-  }));
+let rules = input.split('\n')
+    .map(e => e.split('<->'))
+    .map(e => ({
+        name: e[0].trim(),
+        friends: e[1].split(',').map(e => e.trim())
+    }));
 
-let allZeroFriends = [];
-findAllFriends('0', allZeroFriends);
-console.log(allZeroFriends.length);
+let groupCount = 0;
+let friendsWithGroups = [];
+let allFriends = [];
+let notFriendName = '0';
+do {
+    findAllFriends(notFriendName, allFriends);
+    groupCount++;
+    notFriend = rules.filter(r => !~allFriends.indexOf(r.name))[0];
+    notFriendName = notFriend && notFriend.name;
+} while (notFriend)
+
+console.log(groupCount);
 
 function findRule(name) {
-  return rules.filter(r => r.name == name)[0];
+    return rules.filter(r => r.name == name)[0];
 }
 
 function findAllFriends(name, friends) {
-  let rule = findRule(name);
-  for (let f of rule.friends) {
-    if (!~friends.indexOf(f)) {
-      friends.push(f);
-      findAllFriends(f, friends);
+    let rule = findRule(name);
+    for (let f of rule.friends) {
+        if (!~friends.indexOf(f)) {
+            friends.push(f);
+            findAllFriends(f, friends);
+        }
     }
-  }
 }
