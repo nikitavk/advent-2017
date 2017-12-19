@@ -204,9 +204,6 @@ while (!(waiting1 && waiting2)) {
   if (!waiting2) {
     k++;
   }
-
-  //   console.log(waiting1, waiting2);
-  //   //   console.log(j, k);
-  //   console.log(registers1, registers2);
-  console.log(snd1count, snd2count);
 }
+
+console.log(snd1count, snd2count);
